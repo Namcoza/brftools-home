@@ -69,7 +69,11 @@ None. The site is rebuilt entirely from this repository; there is nothing to bac
 - **Deploy:** merge a passing pull request to `main`. Cloudflare builds and deploys it.
 - **Preview:** pushes to other branches upload a preview version with its own URL, without affecting production.
 - **Verify:** the production hostname shows the change; the Worker's **Deployments** tab shows a version built from the merged commit.
-- **Roll back:** Worker → **Deployments** → choose the last good version → **Rollback**. Then revert the bad commit on `main` through a pull request, so the next merge does not re-publish it.
+- **Roll back to a specific version, never blindly to "previous version".** This Worker's history includes Cloudflare's setup "Hello world" versions, and **Rollback to previous version** picked one of them during the pilot's rollback test.
+  1. Worker → **Deployments** → **Versions**: find the version built from the last good merge commit.
+  2. Open its preview URL — `https://<first 8 characters of the version ID>-brftools-home.<account subdomain>.workers.dev` — and confirm it shows the expected page.
+  3. Deploy that version at 100%.
+  4. Revert the bad commit on `main` through a pull request, so the next merge does not re-publish it.
 
 ## Repository settings
 
