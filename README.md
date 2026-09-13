@@ -1,6 +1,6 @@
 # brftools-home
 
-The public home page for `brftools.uk`, and the Cloudflare Pages pilot for the brftools platform. See [`PRODUCT.md`](PRODUCT.md) for purpose and acceptance criteria.
+The public home page for `brftools.uk`, and the static-site pilot for the brftools platform. See [`PRODUCT.md`](PRODUCT.md) for purpose and acceptance criteria.
 
 **branch = work · pull request = validation · main = live**
 
@@ -26,6 +26,8 @@ The public home page for `brftools.uk`, and the Cloudflare Pages pilot for the b
 
 The Node server in `src/` exists only for local development and tests. Production serves `dist/public/` as static files — no server code runs.
 
+**Never run `wrangler deploy` by hand.** Production changes only through a merged pull request.
+
 ## Layout
 
 ```
@@ -36,20 +38,23 @@ public/              the site — everything here is published
 src/                 local development server only
 tests/               node:test tests
 scripts/             build helpers
+wrangler.jsonc       Cloudflare deployment settings
 .gitleaks.toml       secret-scanning rules
 .github/workflows/   ci.yml — the required checks
 ```
 
 ## Hosting profile
 
-**Cloudflare Pages.** See [`docs/deployment-profiles.md`](docs/deployment-profiles.md), Profile A.
+**Cloudflare Workers, static assets only.** Cloudflare's GitHub integration (Workers Builds) builds and deploys the site. Deployment settings live in [`wrangler.jsonc`](wrangler.jsonc); build settings live in the Cloudflare dashboard:
 
-| Setting | Value |
+| Setting (dashboard) | Value |
 |---|---|
 | Production branch | `main` |
 | Build command | `npm run build` |
-| Output directory | `dist/public` |
-| Environment | `NODE_VERSION=24` |
+| Deploy command | `npx wrangler deploy` |
+| Non-production branch deploy command | `npx wrangler versions upload` |
+
+Node 24 is picked up from `.nvmrc`. Custom domains are attached in the dashboard under the Worker's **Settings → Domains & Routes**.
 
 ## Configuration
 
@@ -61,10 +66,10 @@ None. The site is rebuilt entirely from this repository; there is nothing to bac
 
 ## Deploy, verify, roll back
 
-- **Deploy:** merge a passing pull request to `main`. Cloudflare builds and publishes it.
-- **Preview:** every pull request gets a Cloudflare preview URL, posted on the pull request.
-- **Verify:** the production hostname shows the change; Cloudflare Pages → Deployments shows the production deployment for the merged commit.
-- **Roll back:** Cloudflare Pages → Deployments → choose the last good production deployment → **Rollback to this deployment**. Then revert the bad commit on `main` through a pull request, so the next merge does not re-publish it.
+- **Deploy:** merge a passing pull request to `main`. Cloudflare builds and deploys it.
+- **Preview:** pushes to other branches upload a preview version with its own URL, without affecting production.
+- **Verify:** the production hostname shows the change; the Worker's **Deployments** tab shows a version built from the merged commit.
+- **Roll back:** Worker → **Deployments** → choose the last good version → **Rollback**. Then revert the bad commit on `main` through a pull request, so the next merge does not re-publish it.
 
 ## Repository settings
 

@@ -1,8 +1,8 @@
 # Required checks for every pull request. Job names are the check names that the
 # main-branch ruleset requires: test, gitleaks.
 #
-# Cloudflare Pages profile: no docker job. Cloudflare builds and deploys the site
-# itself through its GitHub integration.
+# Static-site profile: no docker job. Cloudflare builds and deploys the site
+# itself through its GitHub integration (Workers Builds).
 
 name: CI
 
