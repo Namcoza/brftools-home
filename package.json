@@ -1,5 +1,5 @@
 {
-  "name": "brftools-template",
+  "name": "brftools-home",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.13.4",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "wrangler": "4.131.1"
   }
 }

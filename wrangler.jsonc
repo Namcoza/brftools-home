@@ -1,0 +1,18 @@
+// Cloudflare Workers static-assets deployment. Cloudflare's GitHub integration
+// runs `npm run build` and then `npx wrangler deploy` on every push to main, and
+// `npx wrangler versions upload` (a preview) on other branches.
+//
+// No Worker script runs: Cloudflare serves the files in dist/public directly.
+// Custom domains are attached in the Cloudflare dashboard, not here, so no
+// production hostnames live in this repository.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "brftools-home",
+  "compatibility_date": "2026-09-11",
+  "assets": {
+    "directory": "./dist/public"
+  },
+  // workers.dev stays on because branch preview URLs are served from it.
+  "workers_dev": true,
+  "preview_urls": true
+}

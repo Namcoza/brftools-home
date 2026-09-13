@@ -1,35 +1,34 @@
 # Product
 
-Fill this in before any code is written. Work through `docs/intake-checklist.md` first — its answers go here. Keep it short: an agent reads this at the start of every session.
-
----
-
 ## Purpose
 
-<!-- One or two sentences. What problem does this solve, and for whom? -->
+A simple public home page at `brftools.uk`. It is also the static-site pilot: the first project to prove that a change made locally goes live on the production hostname only through a pull request merged to `main`.
 
 ## Users
 
-<!-- Who uses it, and from which devices or networks. -->
+Anyone who visits `brftools.uk` or `www.brftools.uk`, from any device or network.
 
 ## Hosting profile
 
-<!-- Cloudflare Pages or P410 Docker — see docs/deployment-profiles.md. Say why. -->
+Cloudflare, as a static-assets Worker. The site is static HTML and CSS with no server process, data or secrets.
 
 ## Access
 
-<!-- Public, family-only or owner-only. -->
+Public.
 
 ## Data
 
-<!-- What it stores, whether it is personal or sensitive, and whether it is replaceable. "None" is a valid answer. -->
+None. The page contains no personal information and collects nothing.
 
 ## Acceptance criteria
 
-<!-- Numbered, testable statements. Each pull request should name the criterion it serves. -->
-
-1.
+1. `https://brftools.uk` and `https://www.brftools.uk` serve the home page over HTTPS.
+2. A pull request gets passing `test` and `gitleaks` checks, and its branch gets a Cloudflare preview URL.
+3. Merging to `main` updates production without logging into any server.
+4. A previous deployment can be restored from Cloudflare within 10 minutes.
 
 ## Out of scope
 
-<!-- What this deliberately does not do, so an agent does not build it. -->
+- Links to, or names of, family services or family members
+- Forms, analytics, cookies or anything that collects input
+- Any server-side code in production
